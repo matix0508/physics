@@ -100,6 +100,16 @@ class Unit:
         output.reduce()
         return output
 
+
+class Scalar:
+    def __init__(self, val, name=None):
+        self.value = val
+        self.unit = Unit()
+        self.name = name
+
+    def __repr__(self):
+        return f"{self.name}: {self.value}{self.unit}"
+
 class Vector:
     def __init__(self, x, y, name="Vector"):
         self.x = x
@@ -109,7 +119,7 @@ class Vector:
         self.name = name
 
     def __repr__(self):
-        return f"{self.name}[{self.x};{self.y}]{self.unit}"
+        return f"{self.name}: [{self.x};{self.y}]{self.unit}"
 
 
     def reset(self, x=True, y=True):
@@ -140,11 +150,16 @@ class Vector:
             raise Exception(f"You are trying to subtract different vectors( {type(self)} and {type(other)})")
 
     def __mul__(self, other):
-        obj = copy(self)
-        obj.x = self.x * other.x
-        obj.y = self.y * other.y
-        obj.unit
-        return obj
+        if type(self) == type(other):
+            output = 0
+            output += self.x * other.x
+            output += self.y * other.y
+            return obj
+
+    def __rtruediv__(self, other):
+        v = Vector(self.x / other.value, self.y / other.value)
+        v.unit = self.unit / other.unit
+        return v
 
     def same_type(self, other):
         if type(self) == type(other):
@@ -168,7 +183,7 @@ class Vector:
 
 
 
-u4 = Unit("metr")
-u5 = Unit("kilogram")
-u5.numerator.append("m")
-u6 = u4 / u5
+r1 = Vector(3, 4, "position")
+r2 = Vector(5, 6, "position")
+t = Scalar(1, "time")
+v = (r1 - r2) / t
