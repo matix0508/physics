@@ -1,4 +1,5 @@
 from math import atan, sqrt
+import matplotlib.pyplot as plt
 
 class ComplexNumber:
     def __init__(self, a, b):
@@ -37,3 +38,19 @@ class ComplexNumber:
         new_a = (self.a * other.a + self.b * other.b) / (other.modulus() ** 2)
         new_b = (-self.a * other.b + self.b * other.a) / (other.modulus() ** 2)
         return ComplexNumber(new_a, new_b)
+
+    def plot(self):
+        range = 3
+        plt.scatter(self.a, self.b, label=str(self), marker="*", color="green", s=30)
+        plt.xlabel("Real part")
+        plt.ylabel("Imaginary part")
+        plt.title("ComplexNumber")
+
+        plt.ylim(ymin=-self.b * range, ymax=self.b * range)
+        plt.xlim(xmin=-self.a * range, xmax=self.a * range)
+
+        plt.axhline(y=0, color="black")
+        plt.axvline(x=0, color="black")
+
+        plt.legend()
+        plt.show()
