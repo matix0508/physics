@@ -1,3 +1,5 @@
+from errors import WrongDimensionsError
+
 class Matrix:
     def __init__(self, rows, cols):
         self.rows = rows
@@ -8,15 +10,19 @@ class Matrix:
             for j in range(cols):
                 row.append(0)
             self.table.append(row)
+        self.T = None
+
     def get_data(self, tab):
         for i, row in enumerate(tab):
                 for j, col in enumerate(row):
                     self.table[i][j] = col
+        self.T = self.transpose()
 
     def data_one_by_one(self):
         for i, row in enumerate(self.table):
             for j, col in enumerate(row):
                 self.table[i][j] = int(input(f"ROW: {i}, COL: {j}, INPUT: "))
+        self.T = self.transpose()
 
     def __eq__(self, other):
         if not self.same_type(other):
@@ -51,6 +57,9 @@ class Matrix:
             for i, row in enumerate(self.table):
                 for j, col in enumerate(row):
                     output.table[i][j] = col + other.table[i][j]
+            output.T = output.transpose()
+            return output
+        raise WrongDimensionsError("Matrices have different dimensions")
 
 
     def __sub__(self, other):
@@ -59,7 +68,9 @@ class Matrix:
             for i, row in enumerate(self.table):
                 for j, col in enumerate(row):
                     output.table[i][j] = col - other.table[i][j]
+            output.T = output.transpose()
             return output
+        raise WrongDimensionsError("Matrices have different dimensions")
 
     def __mul__(self, other):
         if type(other) == type(self):
@@ -72,7 +83,14 @@ class Matrix:
                 for j, col in enumerate(row):
                     for k in range(self.cols):
                         output.table[i][j] += self.table[i][k] * other.table[k][j]
+            output.T = output.transpose()
             return output
+        else:
+            raise WrongDimensionsError("number of columns of first matrix != number of rows in the other")
 
-
+    def transpose(self):
+        output = Matrix(self.cols, self.rows)
+        for i in range(self.cols):
+            for j in range(self.rows):
+                output.table[i][j] = self.table[j][i]
         return output

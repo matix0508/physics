@@ -1,5 +1,6 @@
 from copy import copy
 from unit import Unit
+from errors import WrongDimensionsError
 
 class Scalar:
     """
@@ -94,7 +95,7 @@ class Vector:
             obj.y = self.y + other.y
             return obj
         else:
-            raise Exception(f"You are trying to add different vectors( {type(self)} and {type(other)})")
+            raise WrongDimensionsError("you are trying to add two different-sized vectors")
 
     def __sub__(self, other):
         if self.same_type(other):
