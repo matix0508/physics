@@ -3,3 +3,6 @@ class Error(Exception):
 
 class WrongDimensionsError(Error):
     pass
+
+class WrongUnitsError(Error):
+    pass

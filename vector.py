@@ -1,6 +1,6 @@
 from copy import copy
 from unit import Unit
-from errors import WrongDimensionsError
+from errors import WrongDimensionsError, WrongUnitsError
 
 class Scalar:
     """
@@ -23,14 +23,14 @@ class Scalar:
             output = Scalar(self.value + other.value)
             return output
         else:
-            raise Exception("You are trying to add different units")
+            raise WrongUnitsError("You are trying to add different units")
 
     def __sub__(self, other):
         if self.unit.order(self) == self.unit.order(other):
             output = Scalar(self.value - other.value)
             return output
         else:
-            raise Exception("You are trying to subtract different units")
+            raise WrongUnitsError("You are trying to subtract different units")
 
     def __mul__(self, other):
         """
@@ -104,7 +104,7 @@ class Vector:
             obj.y = self.y - other.y
             return obj
         else:
-            raise Exception(f"You are trying to subtract different vectors( {type(self)} and {type(other)})")
+            raise WrongDimensionsError("you are trying to subtract two different-sized vectors")
 
     def __mul__(self, other):
         if type(other) == type(Vector()):
@@ -160,36 +160,36 @@ class Vector:
 #         self.unit = Unit("m")
 
 
-
-r1 = Vector(3, 4)
-r2 = Vector(5, 6)
-r3 = Vector(7, 2)
-t = Scalar(1)
-t.unit.add("s")
-t.name = "Time"
-for vec in [r1, r2, r3]:
-    vec.unit.add("m")
-    vec.name = "Position"
-
-m = Scalar(3)
-m.name = "mass"
-m.unit.add("kg")
-
-v2 = (r3 - r2) / t
-v1 = (r2 - r1) / t
-p1 = m * v1
-p2 = m * v2
-
-a = (v2 - v1) / t
-
-F = m * a
-
-a.name = "Acceleration"
-
-F.name = "Force"
-
-for vec in [v1, v2]:
-    vec.name = "Velocity"
-
-for vec in [p1, p2]:
-    vec.name = "Momentum"
+#
+# r1 = Vector(3, 4)
+# r2 = Vector(5, 6)
+# r3 = Vector(7, 2)
+# t = Scalar(1)
+# t.unit.add("s")
+# t.name = "Time"
+# for vec in [r1, r2, r3]:
+#     vec.unit.add("m")
+#     vec.name = "Position"
+#
+# m = Scalar(3)
+# m.name = "mass"
+# m.unit.add("kg")
+#
+# v2 = (r3 - r2) / t
+# v1 = (r2 - r1) / t
+# p1 = m * v1
+# p2 = m * v2
+#
+# a = (v2 - v1) / t
+#
+# F = m * a
+#
+# a.name = "Acceleration"
+#
+# F.name = "Force"
+#
+# for vec in [v1, v2]:
+#     vec.name = "Velocity"
+#
+# for vec in [p1, p2]:
+#     vec.name = "Momentum"
