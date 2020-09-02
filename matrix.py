@@ -43,6 +43,7 @@ class Matrix:
                 output += "\n"
         if self.cols > 1:
             output += "]"
+
         return output
 
     def same_type(self, other):
