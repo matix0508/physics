@@ -142,11 +142,6 @@ class Matrix:
             output.table[i][colidx] = col[i][0]
         return output
 
-
-
-
-
-
 def solve(A, b):
     rows = b.rows
     W = A.det()
